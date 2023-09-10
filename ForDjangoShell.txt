@@ -43,7 +43,7 @@ for i in Author.objects.order_by('-ratingAurhor')[:1]:
 ...     i.dataCreation
 ...     i.author
 ...     i.title
-...     i.text
+...     i.preview()
 
 №11
 for i in  Post.objects.order_by('-rating')[0].comment_set.all():
