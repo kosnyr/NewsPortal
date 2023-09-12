@@ -49,7 +49,10 @@ class Post(models.Model):
         self.save()
 
     def preview(self):
-        return self.text[0:128] + '...'
+        return self.text[0:20] + '...'
+
+    def __str__(self):
+        return f'{self.title}: {self.text[:280]}'
 
 
 class PostCategory(models.Model):
@@ -71,3 +74,5 @@ class Comment(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
+
