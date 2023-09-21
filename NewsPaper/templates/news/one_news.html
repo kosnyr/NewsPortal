@@ -1,0 +1,13 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Post
+{% endblock title %}
+
+{% load censor %}
+
+{% block content %}
+<td>{{ Post.dataCreation|date:'d, M, Y' }}</td>
+<h1>{{ Post.title|censor }}</h1>
+<h4>{{ Post }}</h4>
+{% endblock content %}
