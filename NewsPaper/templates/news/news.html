@@ -15,12 +15,19 @@ News
        <input type="submit" value="Найти" />
    </form>
    <hr>
+    {% if perms.news.add_post %}
+    <a href="{% url 'post_create' %}">Создать новость</a>
+    {% endif %}
    {% if news %}
        <table>
            <tr>
                <td>Заголовок</td>
                <td>Дата публикации</td>
                <td>Текст</td>
+
+           {% if perms.news.change_post or perms.news.delete_post %}
+           <td>Действия</td>
+           {% endif %}
            </tr>
            {% for n in news %}
            <tr>
@@ -28,19 +35,28 @@ News
                <td>{{ n.dataCreation|date:'d, M, Y' }}</td>
                <td>{{ n.text|truncatechars:20 }}</td>
            </tr>
+           <td>
+               {% if perms.news.change_post %}
+               <a href="{% url 'post_update' pk=post.id %}">Изменить</a>
+               {% endif %}
+               {% if perms.news.delete_post %}
+               <a href="{% url 'post_delete' product.id %}">Удалить</a>
+               {% endif %}
+           </td>
+
            {% endfor %}
 
        </table>
    {% else %}
        <h2>Новости отсутстуют!</h2>
    {% endif %}
- {% if page_obj.has_previous %}
+    {% if page_obj.has_previous %}
        <a href="?{% url_replace page=1 %}">1</a>
        {% if page_obj.previous_page_number != 1 %}
            ...
            <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
        {% endif %}
-   {% endif %}
+    {% endif %}
 
 
    {{ page_obj.number }}
