@@ -47,9 +47,25 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.yandex',
+    'django_apscheduler',
 ]
 
 SITE_ID = 1
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = "kosnyrr@yandex.ru"
+EMAIL_HOST_PASSWORD = "DobbiBobbi05"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+DEFAULT_FROM_EMAIL = "kosnyrr@yandex.ru"
+
+SERVER_EMAIL = "example@yandex.ru"
+MANAGERS = (
+    ('John', 'manager@yandex.ru'),
+)
 
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
 
