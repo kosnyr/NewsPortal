@@ -52,6 +52,12 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
+CELERY_BROKER_URL = 'redis://default:d2GQhloMpOXEtoccGUCotk0CmW0EKnAX@redis-19178.c302.asia-northeast1-1.gce.cloud.redislabs.com:19178'
+CELERY_RESULT_BACKEND = 'redis://default:d2GQhloMpOXEtoccGUCotk0CmW0EKnAX@redis-19178.c302.asia-northeast1-1.gce.cloud.redislabs.com:19178'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
