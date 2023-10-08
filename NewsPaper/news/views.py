@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render
 from django.db.models import Exists, OuterRef
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
 
 
 class PostList(ListView):
@@ -35,6 +36,14 @@ class PostDetail(DetailView):
     model = Post
     template_name = 'news/one_news.html'
     context_object_name = 'Post'
+    queryset = Post.objects.all()
+
+    def get_object(self, *args, **kwargs):
+        obj = cache.get(f'post-{self.kwargs["pk"]}', None)
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+            return obj
 
 
 class PostCreate(PermissionRequiredMixin, CreateView):
