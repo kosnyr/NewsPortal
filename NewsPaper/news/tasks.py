@@ -12,7 +12,7 @@ def send_mail(preview, pk, title, subscribers):
         'new_post_email.html',
         {'text': preview, 'link': f'http://127.0.0.1/news/{pk}'})
     msg = EmailMultiAlternatives(
-        subject=title, body='', from_email='losnyrr@yandex.ru', to=subscribers)
+        subject=title, body='', from_email='kosnyrr@yandex.ru', to=subscribers)
     msg.attach_alternative(html_context, 'text/html')
     msg.send()
 
