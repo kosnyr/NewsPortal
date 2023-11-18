@@ -9,6 +9,9 @@ from django.shortcuts import render
 from django.db.models import Exists, OuterRef
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class PostList(ListView):

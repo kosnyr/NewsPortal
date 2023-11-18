@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'django-insecure-v@tzl$2%cyjd_-na@fi#m!4%i95y#sw4jgr67$9i5(^p6$m@ym
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -138,7 +136,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -157,7 +154,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -168,7 +164,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -183,3 +178,125 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'formatters': {
+        'form_debug': {
+            'format': '{asctime} - [{levelname}] - {message}',
+            'style': '{',
+        },
+
+        'form_warning_mail': {
+            'format': '{asctime} - [{levelname}] - {message} - {pathname} ',
+            'style': '{',
+        },
+
+        'form_error': {
+            'format': '{asctime} - [{levelname}] - {message} - {pathname} - {exc_info} ',
+            'style': '{',
+        },
+
+        'general_security_info': {
+            'format': '{asctime} - [{levelname}] - {message} - {module} ',
+            'style': '{',
+        },
+    },
+
+    'handlers': {
+        'console_debug': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'form_debug',
+        },
+
+        'console_warning': {
+            'level': 'WARNING',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'form_warning_mail',
+        },
+
+        'console_error': {
+            'level': 'ERROR',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'form_error',
+        },
+
+        'general_hand': {
+            'level': 'INFO',
+            'filters': ['require_debug_false'],
+            'class': 'logging.FileHandler',
+            'formatter': 'general_security_info',
+            'filename': 'general.log',
+        },
+
+        'errors_hand': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'formatter': 'form_error',
+            'filename': 'errors.log',
+        },
+
+        'security_hand': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'formatter': 'general_security_info',
+            'filename': 'security.log',
+        },
+
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'form_warning_mail',
+        },
+    },
+
+    'filters': {
+        'require_debug_false': {'()': 'django.utils.log.RequireDebugFalse'},
+        'require_debug_true': {'()': 'django.utils.log.RequireDebugTrue'},
+    },
+
+    'loggers': {
+        'django': {
+            'handlers': ['console_debug', 'console_warning', 'console_error', 'general_hand', ],
+            'level': 'INFO',
+            'propagate': True,
+        },
+
+        'django.request': {
+            'handlers': ['errors_hand', 'mail_admins', ],
+            'level': 'INFO',
+            'propagate': True,
+        },
+
+        'django.server': {
+            'handlers': ['errors_hand', 'mail_admins', ],
+            'level': 'INFO',
+            'propagate': True,
+        },
+
+        'django.template': {
+            'handlers': ['errors_hand', ],
+            'level': 'INFO',
+            'propagate': True,
+        },
+
+        'django.db.backends': {
+            'handlers': ['errors_hand', ],
+            'level': 'INFO',
+            'propagate': True,
+        },
+
+        'django.security': {
+            'handlers': ['security_hand', ],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    }
+}
